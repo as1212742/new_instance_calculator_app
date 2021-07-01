@@ -60,7 +60,8 @@ const EC2_Details = () => {
 
   //calculation without GPU
   const CalculationOnDemandLogic = (data) => {
-    let min_cost = Number.MAX_SAFE_INTEGER;
+    let pods_est = Number.MAX_SAFE_INTEGER;
+    let price_est = Number.MAX_SAFE_INTEGER;
     let result = {};
 
     if (onChangeCheckBox) {
@@ -102,14 +103,20 @@ const EC2_Details = () => {
           Number(Pods) / Number(pods_possible)
         );
 
+        if (pods_possible === 0) return;
         const total_cost_of_instance = parseFloat(
           parseFloat(total_instance_needed) * parseFloat(res.values.price)
         );
 
-        if (pods_possible === 0) return;
         // gpu added in calculation
-        if (min_cost > total_cost_of_instance) {
-          min_cost = total_cost_of_instance;
+
+        if (
+          total_instance_needed >= 3 &&
+          pods_est > total_instance_needed &&
+          price_est > total_cost_of_instance
+        ) {
+          pods_est = total_instance_needed;
+          price_est = total_cost_of_instance;
           result = {
             instanceName: res.values.instanceType,
             network: res.values.networkPerformance,
@@ -146,13 +153,20 @@ const EC2_Details = () => {
           Number(Pods) / Number(pods_possible)
         );
 
+        if (pods_possible === 0) return;
+
         const total_cost_of_instance = parseFloat(
           parseFloat(total_instance_needed) * parseFloat(res.values.price)
         );
 
         // gpu not added
-        if (min_cost > total_cost_of_instance) {
-          min_cost = total_cost_of_instance;
+        if (
+          total_instance_needed >= 3 &&
+          pods_est > total_instance_needed &&
+          price_est > total_cost_of_instance
+        ) {
+          pods_est = total_instance_needed;
+          price_est = total_cost_of_instance;
           result = {
             instanceName: res.values.instanceType,
             network: res.values.networkPerformance,
@@ -191,7 +205,10 @@ const EC2_Details = () => {
       setisDetailsRight(1);
     }
 
-    const data = DataState.instancedata.ondemand;
+    const data =
+      DataState.instancedata != undefined
+        ? DataState.instancedata.ondemand
+        : [];
     data !== undefined && CalculationOnDemandLogic(data);
   };
 

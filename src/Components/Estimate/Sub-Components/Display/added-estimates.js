@@ -19,7 +19,7 @@ import {
 } from "../../../../Helpers/helper";
 
 const AddedEstimates = () => {
-  const [data, setdata] = useState([]);
+  const [data, setdata] = useState();
   const { DataState, SetEstimates } = useContext(DataContext);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const AddedEstimates = () => {
 
   return (
     <>
-      {Object.keys(data).length > 0 ? (
+      {data != undefined ? (
         data.map((est, i) => {
           const arr = est.pricing.sk.split("#");
           const type = est.pricing.sk.startsWith("eks")
