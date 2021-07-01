@@ -138,6 +138,7 @@ const EC2_Details = () => {
             podsgpu: GPU,
             eni_ip: res.values.eni_ip,
             eni_no: res.values.eni_number,
+            service: "eks",
           };
         }
       }
@@ -188,6 +189,7 @@ const EC2_Details = () => {
             podsgpu: GPU,
             eni_ip: res.values.eni_ip,
             eni_no: res.values.eni_number,
+            service: "eks",
           };
         }
       }

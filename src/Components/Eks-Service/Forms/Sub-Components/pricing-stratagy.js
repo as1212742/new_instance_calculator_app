@@ -60,11 +60,18 @@ const Pricing_Stratagy = () => {
   };
 
   const SetSelection = () => {
-    const data = {
-      OfferingClass: Instance_Type,
-      LeaseContractLength: Reservation_Type,
-      PurchaseOption: Payment_Type,
-    };
+    let data = {};
+    if (Instance_Type === "OnDemand") {
+      data = {
+        OfferingClass: Instance_Type,
+      };
+    } else {
+      data = {
+        OfferingClass: Instance_Type,
+        LeaseContractLength: Reservation_Type,
+        PurchaseOption: Payment_Type,
+      };
+    }
 
     SetDefaultPricing(data);
   };

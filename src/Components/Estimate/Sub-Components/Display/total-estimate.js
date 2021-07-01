@@ -16,15 +16,29 @@ const Totalestimate = () => {
     let upcost = 0;
 
     data.map((est) => {
-      const mcost = Number(
-        est.pricing.values.price_Hrs *
-          2 *
-          365 *
-          est.recommendationDetails.totalinstancerequired
-      );
+      let mcost = 0;
+
+      if (est.DefaultPricing.OfferingClass == "OnDemand") {
+        mcost = Number(
+          est.recommendationDetails.price *
+            2 *
+            365 *
+            est.recommendationDetails.totalinstancerequired
+        );
+      } else {
+        mcost = Number(
+          est.pricing.values.price_Hrs *
+            2 *
+            365 *
+            est.recommendationDetails.totalinstancerequired
+        );
+      }
 
       let val = 0;
-      if ("price_Quantity" in est.pricing.values) {
+      if (
+        est.DefaultPricing.OfferingClass !== "OnDemand" &&
+        "price_Quantity" in est.pricing.values
+      ) {
         val = Number(
           est.pricing.values.price_Quantity *
             est.recommendationDetails.totalinstancerequired

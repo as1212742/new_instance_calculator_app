@@ -84,12 +84,22 @@ const Pricing_Display = () => {
 
   const SetEstimatesInCookie = () => {
     const arr = getCookie("estimates-list");
-    let obj = {
-      pricing: data,
-      recommendationDetails: recommendationDetails,
-      DefaultPricing: DefaultPricing,
-    };
 
+    let obj = {};
+    if (DefaultPricing.OfferingClass == "OnDemand") {
+      obj = {
+        recommendationDetails: recommendationDetails,
+        DefaultPricing: DefaultPricing,
+      };
+    } else {
+      obj = {
+        pricing: data,
+        recommendationDetails: recommendationDetails,
+        DefaultPricing: DefaultPricing,
+      };
+    }
+
+    // console.log(obj);
     if (arr === "") {
       const temp = [];
       temp.push(obj);
@@ -107,6 +117,8 @@ const Pricing_Display = () => {
     SetEstimatesInCookie();
     Object.keys(data).length > 0 && history.push("/Estimate");
   };
+
+  console.log(DataState);
 
   return (
     <Form
