@@ -49,10 +49,10 @@ const AddedEstimates = () => {
               : "Amazon Elastic Container Service";
 
             const monthlycost = (
-              est.pricing.values.price_Hrs *
-              2 *
-              365 *
-              est.recommendationDetails.totalinstancerequired
+              parseFloat(est.pricing.values.price_Hrs) *
+              24 *
+              30 *
+              parseFloat(est.recommendationDetails.totalinstancerequired)
             )
               .toFixed(2)
               .toString()
@@ -158,15 +158,16 @@ const AddedEstimates = () => {
                 : "Amazon Elastic Container Service";
 
             const monthlycost = (
-              est.recommendationDetails.price *
-              2 *
-              365 *
-              est.recommendationDetails.totalinstancerequired
+              parseFloat(est.recommendationDetails.price) *
+              24 *
+              30 *
+              parseFloat(est.recommendationDetails.totalinstancerequired)
             )
               .toFixed(2)
               .toString()
               .replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
 
+            const opersys = est.recommendationDetails.os.split("#");
             return (
               <Form
                 actions={
@@ -179,7 +180,9 @@ const AddedEstimates = () => {
               >
                 <FormSection
                   header={type}
-                  // description={<b>Region: {est.pricing.pk}</b>}
+                  description={
+                    <b>Region: {est.recommendationDetails.region}</b>
+                  }
                 >
                   <FormField stretch={true}>
                     <Heading variant="h2">
@@ -223,8 +226,8 @@ const AddedEstimates = () => {
                     <Grid container spacing={12}>
                       <Grid item xs={8}>
                         <Text>
-                          {/* Operating System({Transform_OS_Data(arr[1], arr[2])}), */}
-                          memory(
+                          Operating System(
+                          {Transform_OS_Data(opersys[0], opersys[1])}), memory(
                           {est.recommendationDetails.ins_mem}), Processor(
                           {est.recommendationDetails.physicalProcessor}), vCPU(
                           {est.recommendationDetails.ins_vcpu}), Network(

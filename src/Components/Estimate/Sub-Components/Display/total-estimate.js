@@ -21,15 +21,15 @@ const Totalestimate = () => {
       if (est.DefaultPricing.OfferingClass == "OnDemand") {
         mcost = Number(
           est.recommendationDetails.price *
-            2 *
-            365 *
+            24 *
+            30 *
             est.recommendationDetails.totalinstancerequired
         );
       } else {
         mcost = Number(
           est.pricing.values.price_Hrs *
-            2 *
-            365 *
+            24 *
+            30 *
             est.recommendationDetails.totalinstancerequired
         );
       }

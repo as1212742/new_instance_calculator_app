@@ -139,6 +139,8 @@ const EC2_Details = () => {
             eni_ip: res.values.eni_ip,
             eni_no: res.values.eni_number,
             service: "eks",
+            region: DataState.selectedlocation,
+            os: DataState.selectedos,
           };
         }
       }
@@ -190,6 +192,8 @@ const EC2_Details = () => {
             eni_ip: res.values.eni_ip,
             eni_no: res.values.eni_number,
             service: "eks",
+            region: DataState.selectedlocation,
+            os: DataState.selectedos,
           };
         }
       }
