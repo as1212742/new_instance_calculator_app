@@ -1,0 +1,51 @@
+/** @format */
+
+.mt-5 {
+  margin-top: 40px;
+}
+
+.eks-card {
+  box-shadow: 1px 1px 10px rgb(0 0 0 / 20%);
+  text-align: center;
+  padding: 32px;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.eks-card:hover {
+  border: 1px solid #7bbbcf;
+  background: #eff6f8;
+  transform: scale(1.01);
+  box-shadow: 1px 1px 10px rgb(0 0 0 / 10%);
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 50px;
+  margin: 0px 90px;
+  margin-top: 180px;
+}
+
+.eks-card .card-heading {
+  font-size: 42px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.eks-card .icon-wrapper {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.eks-card .icon {
+  height: 64px;
+}
+
+.eks-col {
+  flex-basis: 50%;
+}
+
+.eks-card .eks-card-paragraph {
+  margin-bottom: 16px;
+}
