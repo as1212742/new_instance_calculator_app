@@ -40,7 +40,7 @@ const AddedEstimates = () => {
   console.log("data", data);
   return (
     <>
-      {data != undefined ? (
+      {data != undefined && Object.keys(data).length > 0 ? (
         data.map((est, i) => {
           if (est.DefaultPricing.OfferingClass !== "OnDemand") {
             const arr = est.pricing.sk.split("#");
