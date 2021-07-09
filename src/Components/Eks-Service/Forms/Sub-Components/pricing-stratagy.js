@@ -1,6 +1,6 @@
 /** @format */
 
-import { ColumnLayout, Heading } from "aws-northstar";
+import { ColumnLayout, Heading, Stack } from "aws-northstar";
 import RadioGroup, { RadioButton } from "aws-northstar/components/RadioGroup";
 import Container from "aws-northstar/layouts/Container";
 import { DataContext } from "../../../../Context/Provider/provider";
@@ -185,7 +185,9 @@ const Pricing_Stratagy = () => {
           />
         </ColumnLayout>
         <br />
-        <ReservedCalculation />
+        <Stack>
+          <ReservedCalculation />
+        </Stack>
       </Container>
     </>
   );
