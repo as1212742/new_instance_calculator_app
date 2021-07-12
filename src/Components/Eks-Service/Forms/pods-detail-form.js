@@ -107,9 +107,6 @@ const Instance_Detail_Form_1 = () => {
     //page refresh  whenever location or os changes
     //if location present in cookie always take from cookie first it removes most of the problems
     let loc = DataState.selectedlocation;
-    const locatn = getCookie("location");
-
-    if (loc !== "") loc = locatn;
 
     const data = {
       location: loc,

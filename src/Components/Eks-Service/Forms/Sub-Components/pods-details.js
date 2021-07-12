@@ -27,7 +27,7 @@ const EC2_Details = () => {
   const [isDetailsRight, setisDetailsRight] = useState(1);
   const [maxInstancevCPU, setmaxInstancevCPU] = useState("");
   const [maxInstanceMemory, setmaxInstanceMemory] = useState("");
-  const [onChangeCheckBox, setonChangeCheckBox] = useState(0);
+  const [numberOfAZ, setnumberOfAZ] = useState(0);
   const [isValid, setisValid] = useState(1);
 
   // on page reload
@@ -58,27 +58,11 @@ const EC2_Details = () => {
     }
   }, [DataState.selectedos]);
 
-  //calculation without GPU
+  //calculation part
   const CalculationOnDemandLogic = (data) => {
     let pods_est = Number.MAX_SAFE_INTEGER;
     let price_est = Number.MAX_SAFE_INTEGER;
     let result = {};
-
-    if (onChangeCheckBox) {
-      if (maxInstancevCPU !== "" && maxInstancevCPU) {
-        data = data.filter(
-          (res) => Number(res.values.vcpu) <= Number(maxInstancevCPU)
-        );
-      }
-
-      if (maxInstanceMemory !== "") {
-        data = data.filter(
-          (res) =>
-            Number(res.values.memory.replace(" GiB", "")) <=
-            Number(maxInstanceMemory)
-        );
-      }
-    }
 
     data.map((res) => {
       if (
@@ -111,7 +95,7 @@ const EC2_Details = () => {
         // gpu added in calculation
 
         if (
-          total_instance_needed >= 3 &&
+          total_instance_needed >= numberOfAZ &&
           pods_est > total_instance_needed &&
           price_est > total_cost_of_instance
         ) {
@@ -164,7 +148,7 @@ const EC2_Details = () => {
 
         // gpu not added
         if (
-          total_instance_needed >= 3 &&
+          total_instance_needed >= numberOfAZ &&
           pods_est > total_instance_needed &&
           price_est > total_cost_of_instance
         ) {
@@ -228,7 +212,7 @@ const EC2_Details = () => {
     DataState.instancedata,
     maxInstancevCPU,
     maxInstanceMemory,
-    onChangeCheckBox,
+    numberOfAZ,
   ]);
 
   useEffect(() => {
@@ -290,18 +274,22 @@ const EC2_Details = () => {
     setmaxInstanceMemory(e);
   };
 
+  const OnChangeAZ = (e) => {
+    setnumberOfAZ(e);
+  };
+
   return (
     <Form className="Pods_Form_Section">
       <FormSection header="Pods specifications">
         <FormField
           label="Operating system"
           description="Choose which operating system you'd like to run Amazon EC2 instances on."
-          controlId="formFieldId3"
+          controlId="formFieldId1"
           stretch={true}
         >
           <Select
             placeholder="Choose an option"
-            controlId="formFieldId3"
+            controlId="formFieldId1"
             options={OperatingSystem}
             selectedOption={SelectedOS}
             onChange={onChangeOS}
@@ -315,7 +303,7 @@ const EC2_Details = () => {
               label="Total Pods"
               description="Enter to Pod Requirement"
               hintText="Input values e.g. 10 not contains decimal (e.g. 10.25)"
-              controlId="formFieldId1"
+              controlId="formFieldId2"
               stretch={true}
             >
               <Input
@@ -337,7 +325,7 @@ const EC2_Details = () => {
             >
               <Input
                 type="text"
-                controlId="formFieldId4"
+                controlId="formFieldId3"
                 autocomplete={false}
                 disableBrowserAutocorrect={true}
                 value={vCPU}
@@ -350,12 +338,12 @@ const EC2_Details = () => {
               label="Memory(GiB)"
               description="Enter Pod Memory Requirement"
               hintText="Input values e.g. 10 or 0.5 GiB"
-              controlId="formFieldId5"
+              controlId="formFieldId4"
               stretch={true}
             >
               <Input
                 type="text"
-                controlId="formFieldId6"
+                controlId="formFieldId4"
                 autocomplete={false}
                 disableBrowserAutocorrect={true}
                 value={memory}
@@ -366,12 +354,12 @@ const EC2_Details = () => {
               label="GPU"
               description="Enter GPU Requirement (Optional)"
               hintText="Input values e.g. 10 not contains decimal (e.g. 10.25)"
-              controlId="formFieldId7"
+              controlId="formFieldId5"
               stretch={true}
             >
               <Input
                 type="text"
-                controlId="formFieldId8"
+                controlId="formFieldId5"
                 autocomplete={false}
                 disableBrowserAutocorrect={true}
                 value={GPU}
@@ -380,48 +368,16 @@ const EC2_Details = () => {
             </FormField>
           </ColumnLayout>
         </Stack>
-        <br />
-        <Checkbox onChange={() => setonChangeCheckBox(!onChangeCheckBox)}>
-          Advanced Options
-        </Checkbox>
-
-        {onChangeCheckBox ? (
-          <Stack>
-            <Heading variant="h3">Maximum Instance Size Configuration</Heading>
-            <ColumnLayout>
-              <FormField label="vCPUs" controlId="formFieldId1" stretch={true}>
-                <Input
-                  type="text"
-                  controlId="formFieldId1"
-                  autocomplete={false}
-                  disableBrowserAutocorrect={true}
-                  value={maxInstancevCPU}
-                  onChange={OnChangeMaxInstancevCPU}
-                />
-              </FormField>
-              <FormField
-                label="Memory(GiB)"
-                controlId="formFieldId1"
-                stretch={true}
-              >
-                <Input
-                  type="text"
-                  controlId="formFieldId1"
-                  autocomplete={false}
-                  disableBrowserAutocorrect={true}
-                  value={maxInstanceMemory}
-                  onChange={OnChangeMaxInstanceMemory}
-                />
-              </FormField>
-            </ColumnLayout>
-            <Heading variant="h5">
-              Recommendation of Instance is given by considering Instances with
-              lesser vCPU and Memory than entered{" "}
-            </Heading>
-          </Stack>
-        ) : null}
 
         <DisplayRecommendation />
+        <FormField
+          label="Enter Number of AZ"
+          hintText="Input constraint goes here. e.g. 1,10. must be an integer (Default 1)"
+          controlId="formFieldId6"
+          stretch={true}
+        >
+          <Input type="text" controlId="formFieldId6" onChange={OnChangeAZ} />
+        </FormField>
         <InstancePodsCalculation />
       </FormSection>
     </Form>

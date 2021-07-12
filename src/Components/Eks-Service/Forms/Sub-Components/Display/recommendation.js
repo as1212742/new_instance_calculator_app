@@ -13,7 +13,7 @@ const Display_Recommendation = () => {
   return Object.keys(DataState.RecommendationDetails).length !== 0 ? (
     <Container className="Result-Box-Container">
       <Heading variant="h5">
-        Based on your inputs, this is the lowest-cost EC2 instance:
+        Based on your inputs, this is the lowest-cost EC2 instance (MultiAZ):
       </Heading>
 
       <Box className="Result-Box">
